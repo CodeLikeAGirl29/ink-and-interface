@@ -1,4 +1,4 @@
-'use ' + 'client'; // Force client-side execution for interactive hooks
+'use client';
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
