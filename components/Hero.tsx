@@ -30,13 +30,27 @@ export default function Hero() {
           business.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 pt-4">
-          <button className="bg-slate-900 text-white font-medium px-8 py-4 rounded-none hover:bg-slate-800 transition-colors shadow-sm">
-            Launch Your Business
-          </button>
+        <div className="flex flex-col sm:flex-row gap-6 pt-4 items-center">
+          
+          {/* Custom Premium Rolling-Text CTA Link */}
+          <Link 
+            href="/onboard" 
+            className="w-full sm:w-auto text-center cursor-pointer bg-gradient-to-b from-slate-800 to-slate-950 shadow-[0px_4px_32px_0_rgba(15,23,42,0.35)] px-8 py-4 rounded-none border border-slate-700 text-white font-medium group transition-shadow duration-300 hover:shadow-[0px_4px_40px_0_rgba(15,23,42,0.5)]"
+          >
+            <div className="relative overflow-hidden h-5">
+              <p className="group-hover:-translate-y-7 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)] uppercase tracking-wider text-xs font-bold">
+                Launch Your Business
+              </p>
+              <p className="absolute top-7 left-0 right-0 group-hover:top-0 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)] uppercase tracking-wider text-xs font-bold text-slate-300">
+                Launch Your Business
+              </p>
+            </div>
+          </Link>
+
+          {/* Secondary Button Styled Link */}
           <Link
             href="/case-studies/ski-barn"
-            className="border border-slate-300 text-slate-700 font-medium px-8 py-4 rounded-none hover:bg-slate-100 transition-colors"
+           className="w-full sm:w-auto text-center text-xs font-bold uppercase tracking-wider text-slate-700 border border-slate-300 px-8 py-4 rounded-none bg-transparent transition-all duration-300 ease-in-out hover:bg-white hover:border-slate-400 hover:text-slate-900 hover:shadow-[0_0_25px_0_rgba(148,163,184,0.35)]"
           >
             View Case Studies
           </Link>

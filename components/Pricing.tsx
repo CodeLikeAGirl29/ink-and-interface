@@ -57,7 +57,7 @@ export default function Pricing() {
 
             <Link 
               href="/onboard?tier=basic"
-              className="w-full block text-center border border-slate-300 text-slate-700 font-medium py-4 rounded-none hover:bg-slate-50 transition-colors mt-8"
+             className="block w-full text-center text-xs font-bold uppercase tracking-wider text-slate-700 border border-slate-300 px-8 py-4 rounded-none bg-transparent transition-all duration-300 ease-in-out hover:bg-white hover:border-slate-400 hover:text-slate-900 hover:shadow-[0_0_25px_0_rgba(148,163,184,0.35)]"
             >
               Get Started for $499
             </Link>

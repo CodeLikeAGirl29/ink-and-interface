@@ -2,6 +2,7 @@ import React from 'react';
 import Hero from '@/components/Hero';
 import CaseStudy from '@/components/CaseStudy';
 import Pricing from '@/components/Pricing';
+import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
       <Hero />
       <CaseStudy />
       <Pricing />
+      <Footer />
     </div>
   );
 }
