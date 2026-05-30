@@ -2,34 +2,34 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { HiChevronDown, HiShieldCheck, HiPaintBrush, HiCpuChip, HiUserCircle } from 'react-icons/hi2';
 
 function OnboardingFormContent() {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const searchParams = useSearchParams();
   
   const [formData, setFormData] = useState({
-    // Core Info & Pricing Context
+    // Core Configuration
     tier: 'basic',
     ownerName: '',
     email: '',
     
-    // Section 1: Entity Legal Formation Parameters
+    // Compliance Runway
     businessNamePrimary: '',
     businessNameAlternate: '',
     businessAddress: '',
     industryType: 'professional-services',
     
-    // Section 2: Visual Identity & Brand Scope
+    // Brand Architecture
     brandStyle: 'minimal',
     brandColor: 'slate',
     targetAudience: '',
     
-    // Section 3: Digital Interface & Infrastructure
+    // Infrastructure Scope
     domainStatus: 'register',
     conversionTarget: 'lead-form',
   });
 
-  // Synchronize URL parameters with form state on mount
   useEffect(() => {
     const selectedTier = searchParams.get('tier');
     if (selectedTier === 'basic' || selectedTier === 'premium') {
@@ -59,10 +59,11 @@ function OnboardingFormContent() {
         throw new Error(data.error || 'Network error during submission.');
       }
 
-      // Success: Divert the user's browser directly to Stripe Checkout
       if (data.checkoutUrl) {
         setStatus('success');
-        window.location.href = data.checkoutUrl;
+        setTimeout(() => {
+          window.location.href = data.checkoutUrl;
+        }, 3000);
       } else {
         setStatus('error');
       }
@@ -72,238 +73,325 @@ function OnboardingFormContent() {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 py-24 px-6 font-sans">
-      <div className="max-w-2xl mx-auto bg-white border border-slate-200 p-8 md:p-12 shadow-sm space-y-8">
-        
-        <div>
-          <h2 className="text-3xl font-extrabold tracking-tight mb-2">Initialize Your Launch Engine</h2>
-          <p className="text-sm text-slate-500 font-light">Complete the baseline specifications to programmatically configure your deployment package.</p>
-        </div>
-        
-        <form onSubmit={handleSubmit} className="space-y-8">
-          
-          {/* Baseline Tier Configuration */}
+  // Premium Thank You Card Overlay (Matches the Dark Aesthetics)
+  if (status === 'success') {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6 font-sans">
+        <div className="max-w-md w-full bg-slate-900 border border-white/10 p-8 md:p-12 text-center space-y-6 shadow-2xl">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-white text-slate-950 font-mono text-xs font-bold">
+            ✔
+          </div>
           <div className="space-y-2">
-            <label className="text-xs font-bold tracking-wider text-slate-400 uppercase font-mono block">Selected Package Tier</label>
-            <select 
-              name="tier"
-              value={formData.tier}
-              onChange={handleInputChange}
-              className="w-full bg-slate-50 border border-slate-200 rounded-none p-3 text-sm focus:outline-none focus:border-slate-900 transition-colors font-medium text-slate-800"
+            <h2 className="text-2xl font-extrabold tracking-tight uppercase">Intake Complete</h2>
+            <p className="text-xs font-mono tracking-widest text-slate-500 uppercase">Pipeline Initialized</p>
+          </div>
+          <p className="text-sm text-gray-400 font-light leading-relaxed">
+            Your legal parameters, brand specifications, and Next.js scope profiles have been cleanly committed to our pipeline core.
+          </p>
+          <div className="border-t border-white/5 pt-6 space-y-3">
+            <div className="flex items-center justify-center space-x-2">
+              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-ping" />
+              <p className="text-[11px] font-mono font-bold tracking-wider text-slate-400 uppercase">
+                Routing to secure stripe terminal...
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-white py-24 px-6 font-sans antialiased">
+      <div className="max-w-3xl mx-auto">
+        <form onSubmit={handleSubmit} className="space-y-12">
+          
+          {/* TOP SECTION: PACKAGE SETUP */}
+          <div className="border-b border-white/10 pb-12">
+            <div className="flex items-center gap-x-3">
+              <HiCpuChip className="size-6 text-gray-500" />
+              <h2 className="text-base font-semibold text-white uppercase tracking-wider font-mono">System Configuration</h2>
+            </div>
+            <p className="mt-1 text-sm text-gray-400 font-light">
+              Select your targeted production parameters to map your productized agency layout routing.
+            </p>
+
+            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-4">
+                <label htmlFor="tier" className="block text-sm font-medium text-white font-mono uppercase tracking-wide text-xs">
+                  Active Subscription / Setup Tier
+                </label>
+                <div className="mt-2 grid grid-cols-1">
+                  <select
+                    id="tier"
+                    name="tier"
+                    value={formData.tier}
+                    onChange={handleInputChange}
+                    className="col-start-1 row-start-1 w-full appearance-none rounded-none bg-white/5 py-2.5 pr-8 pl-3 text-base text-white outline-1 -outline-offset-1 outline-white/10 *:bg-slate-900 focus:outline-2 focus:-outline-offset-2 focus:outline-white sm:text-sm"
+                  >
+                    <option value="basic">The Basic Launch Package ($499.00)</option>
+                    <option value="premium">The Complete Growth Stack ($999.00)</option>
+                  </select>
+                  <HiChevronDown className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-400 sm:size-4" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION 1: COMPLIANCE RUNWAY */}
+          <div className="border-b border-white/10 pb-12">
+            <div className="flex items-center gap-x-3">
+              <HiShieldCheck className="size-6 text-gray-500" />
+              <h2 className="text-base font-semibold text-white uppercase tracking-wider font-mono">Section 01 // Corporate Compliance</h2>
+            </div>
+            <p className="mt-1 text-sm text-gray-400 font-light">
+              Mandatory legal criteria required for organizing documentation and state indexing records.
+            </p>
+
+            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-3">
+                <label className="block text-sm font-medium text-white text-xs uppercase font-mono tracking-wide">
+                  Primary Legal Name Choice <span className="text-red-500">*</span>
+                </label>
+                <div className="mt-2">
+                  <input
+                    required
+                    type="text"
+                    name="businessNamePrimary"
+                    placeholder="e.g., The Ski Barn LLC"
+                    value={formData.businessNamePrimary}
+                    onChange={handleInputChange}
+                    className="block w-full rounded-none bg-white/5 px-3 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-600 focus:outline-2 focus:-outline-offset-2 focus:outline-white sm:text-sm"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-3">
+                <label className="block text-sm font-medium text-white text-xs uppercase font-mono tracking-wide">
+                  Alternate Registry Choice
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="businessNameAlternate"
+                    placeholder="Backup name fallback"
+                    value={formData.businessNameAlternate}
+                    onChange={handleInputChange}
+                    className="block w-full rounded-none bg-white/5 px-3 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-600 focus:outline-2 focus:-outline-offset-2 focus:outline-white sm:text-sm"
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-full">
+                <label className="block text-sm font-medium text-white text-xs uppercase font-mono tracking-wide">
+                  Principal Entity Physical Address <span className="text-red-500">*</span>
+                </label>
+                <div className="mt-2">
+                  <input
+                    required
+                    type="text"
+                    name="businessAddress"
+                    placeholder="Street, City, State, ZIP (No P.O. Boxes)"
+                    value={formData.businessAddress}
+                    onChange={handleInputChange}
+                    className="block w-full rounded-none bg-white/5 px-3 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-600 focus:outline-2 focus:-outline-offset-2 focus:outline-white sm:text-sm"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-3">
+                <label className="block text-sm font-medium text-white text-xs uppercase font-mono tracking-wide">
+                  Operational Sector Type
+                </label>
+                <div className="mt-2 grid grid-cols-1">
+                  <select
+                    name="industryType"
+                    value={formData.industryType}
+                    onChange={handleInputChange}
+                    className="col-start-1 row-start-1 w-full appearance-none rounded-none bg-white/5 py-2.5 pr-8 pl-3 text-base text-white outline-1 -outline-offset-1 outline-white/10 *:bg-slate-900 focus:outline-2 focus:-outline-offset-2 focus:outline-white sm:text-sm"
+                  >
+                    <option value="professional-services">Professional Services / Consulting</option>
+                    <option value="marine-trades">Marine / PWC Repair & Heavy Trades</option>
+                    <option value="construction-trades">Construction / Contracting / Trades</option>
+                    <option value="e-commerce">Digital Commerce & Retail</option>
+                    <option value="hospitality-food">Hospitality, Food & Beverage</option>
+                  </select>
+                  <HiChevronDown className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-400 sm:size-4" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION 2: BRAND IDENTITY & INTERFACE SCOPE */}
+          <div className="border-b border-white/10 pb-12">
+            <div className="flex items-center gap-x-3">
+              <HiPaintBrush className="size-6 text-gray-500" />
+              <h2 className="text-base font-semibold text-white uppercase tracking-wider font-mono">Section 02 // Interface & Brand Layout</h2>
+            </div>
+            <p className="mt-1 text-sm text-gray-400 font-light">
+              Defining design system visual attributes and technical scope parameters for Next.js execution.
+            </p>
+
+            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-3">
+                <label className="block text-sm font-medium text-white text-xs uppercase font-mono tracking-wide">
+                  Design Aesthetic Theme
+                </label>
+                <div className="mt-2 grid grid-cols-1">
+                  <select
+                    name="brandStyle"
+                    value={formData.brandStyle}
+                    onChange={handleInputChange}
+                    className="col-start-1 row-start-1 w-full appearance-none rounded-none bg-white/5 py-2.5 pr-8 pl-3 text-base text-white outline-1 -outline-offset-1 outline-white/10 *:bg-slate-900 focus:outline-2 focus:-outline-offset-2 focus:outline-white sm:text-sm"
+                  >
+                    <option value="minimal">Minimal / Sharp High-Contrast</option>
+                    <option value="industrial">Heavy Industrial / Bold Core</option>
+                    <option value="corporate">Clean Corporate / Modern Corporate</option>
+                  </select>
+                  <HiChevronDown className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-400 sm:size-4" />
+                </div>
+              </div>
+
+              <div className="sm:col-span-3">
+                <label className="block text-sm font-medium text-white text-xs uppercase font-mono tracking-wide">
+                  Primary Theme Color
+                </label>
+                <div className="mt-2 grid grid-cols-1">
+                  <select
+                    name="brandColor"
+                    value={formData.brandColor}
+                    onChange={handleInputChange}
+                    className="col-start-1 row-start-1 w-full appearance-none rounded-none bg-white/5 py-2.5 pr-8 pl-3 text-base text-white outline-1 -outline-offset-1 outline-white/10 *:bg-slate-900 focus:outline-2 focus:-outline-offset-2 focus:outline-white sm:text-sm"
+                  >
+                    <option value="slate">Monochrome Deep Slate</option>
+                    <option value="orange">Safety Blaze Orange</option>
+                    <option value="navy">Maritime Dark Navy</option>
+                    <option value="hunter">Deep Timber Hunter Green</option>
+                  </select>
+                  <HiChevronDown className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-400 sm:size-4" />
+                </div>
+              </div>
+
+              <div className="col-span-full">
+                <label className="block text-sm font-medium text-white text-xs uppercase font-mono tracking-wide">
+                  Primary Target Audience Profile <span className="text-red-500">*</span>
+                </label>
+                <div className="mt-2">
+                  <input
+                    required
+                    type="text"
+                    name="targetAudience"
+                    placeholder="e.g., Regional commercial clients needing emergency industrial logistics"
+                    value={formData.targetAudience}
+                    onChange={handleInputChange}
+                    className="block w-full rounded-none bg-white/5 px-3 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-600 focus:outline-2 focus:-outline-offset-2 focus:outline-white sm:text-sm"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-3">
+                <label className="block text-sm font-medium text-white text-xs uppercase font-mono tracking-wide">
+                  Domain Profile Control
+                </label>
+                <div className="mt-2 grid grid-cols-1">
+                  <select
+                    name="domainStatus"
+                    value={formData.domainStatus}
+                    onChange={handleInputChange}
+                    className="col-start-1 row-start-1 w-full appearance-none rounded-none bg-white/5 py-2.5 pr-8 pl-3 text-base text-white outline-1 -outline-offset-1 outline-white/10 *:bg-slate-900 focus:outline-2 focus:-outline-offset-2 focus:outline-white sm:text-sm"
+                  >
+                    <option value="register">Register a new business domain profile</option>
+                    <option value="transfer">Connect an existing profile via custom DNS</option>
+                  </select>
+                  <HiChevronDown className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-400 sm:size-4" />
+                </div>
+              </div>
+
+              <div className="sm:col-span-3">
+                <label className="block text-sm font-medium text-white text-xs uppercase font-mono tracking-wide">
+                  Conversion Pipeline Target
+                </label>
+                <div className="mt-2 grid grid-cols-1">
+                  <select
+                    name="conversionTarget"
+                    value={formData.conversionTarget}
+                    onChange={handleInputChange}
+                    className="col-start-1 row-start-1 w-full appearance-none rounded-none bg-white/5 py-2.5 pr-8 pl-3 text-base text-white outline-1 -outline-offset-1 outline-white/10 *:bg-slate-900 focus:outline-2 focus:-outline-offset-2 focus:outline-white sm:text-sm"
+                  >
+                    <option value="lead-form">Lead Intake Terminal (Collect asset records)</option>
+                    <option value="booking">Direct Interactive Scheduling Router (Cal/Calendly embed)</option>
+                    <option value="click-to-call">Mobile Focus Dialing Route Terminal</option>
+                  </select>
+                  <HiChevronDown className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-400 sm:size-4" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION 3: ORGANIZER CONTACT AUTHORIZATION */}
+          <div className="pb-4">
+            <div className="flex items-center gap-x-3">
+              <HiUserCircle className="size-6 text-gray-500" />
+              <h2 className="text-base font-semibold text-white uppercase tracking-wider font-mono">Section 03 // Authorization & Communications</h2>
+            </div>
+            <p className="mt-1 text-sm text-gray-400 font-light">
+              Primary identification credentials used for organizational assignment records.
+            </p>
+
+            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-3">
+                <label className="block text-sm font-medium text-white text-xs uppercase font-mono tracking-wide">
+                  Organizer Full Legal Name <span className="text-red-500">*</span>
+                </label>
+                <div className="mt-2">
+                  <input
+                    required
+                    type="text"
+                    name="ownerName"
+                    placeholder="John Doe"
+                    value={formData.ownerName}
+                    onChange={handleInputChange}
+                    className="block w-full rounded-none bg-white/5 px-3 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-600 focus:outline-2 focus:-outline-offset-2 focus:outline-white sm:text-sm"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-3">
+                <label className="block text-sm font-medium text-white text-xs uppercase font-mono tracking-wide">
+                  Secure Communication Email <span className="text-red-500">*</span>
+                </label>
+                <div className="mt-2">
+                  <input
+                    required
+                    type="email"
+                    name="email"
+                    placeholder="founder@domain.com"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="block w-full rounded-none bg-white/5 px-3 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-600 focus:outline-2 focus:-outline-offset-2 focus:outline-white sm:text-sm"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* TRIGGER CONTROL BUTTON BLOCK */}
+          <div className="mt-6 flex items-center justify-end gap-x-6 pt-6 border-t border-white/10">
+            <button
+              type="submit"
+              disabled={status === 'submitting'}
+              className="w-full sm:w-auto bg-white text-slate-950 font-bold font-mono text-xs uppercase tracking-wider px-6 py-3 rounded-none hover:bg-gray-200 transition-colors shadow-sm disabled:bg-slate-700 disabled:text-slate-400 disabled:cursor-not-allowed"
             >
-              <option value="basic">The Basic Launch Package ($499.00)</option>
-              <option value="premium">The Complete Growth Stack ($999.00)</option>
-            </select>
+              {status === 'submitting' ? 'Processing Core Assets...' : 'Authorize Framework Setup & Pay'}
+            </button>
           </div>
-
-          <hr className="border-slate-100" />
-
-          {/* SECTION 1: ENTITY LEGAL FORMATION */}
-          <div className="space-y-6">
-            <div className="border-l-2 border-slate-900 pl-3">
-              <h3 className="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">Section 01 // Corporate Compliance Runway</h3>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-xs font-bold tracking-wider text-slate-700 uppercase font-mono block">Primary Entity Name Choice</label>
-                <input 
-                  required
-                  type="text"
-                  name="businessNamePrimary"
-                  placeholder="e.g., The Ski Barn LLC"
-                  value={formData.businessNamePrimary}
-                  onChange={handleInputChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-none p-3 text-sm focus:outline-none focus:border-slate-900 transition-colors"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold tracking-wider text-slate-700 uppercase font-mono block">Alternate Backup Name Choice</label>
-                <input 
-                  required
-                  type="text"
-                  name="businessNameAlternate"
-                  placeholder="In case primary is taken"
-                  value={formData.businessNameAlternate}
-                  onChange={handleInputChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-none p-3 text-sm focus:outline-none focus:border-slate-900 transition-colors"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs font-bold tracking-wider text-slate-700 uppercase font-mono block">Principal Business Physical Address</label>
-              <input 
-                required
-                type="text"
-                name="businessAddress"
-                placeholder="Street, City, State, Zip (No P.O. Boxes)"
-                value={formData.businessAddress}
-                onChange={handleInputChange}
-                className="w-full bg-slate-50 border border-slate-200 rounded-none p-3 text-sm focus:outline-none focus:border-slate-900 transition-colors"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs font-bold tracking-wider text-slate-700 uppercase font-mono block">Core Industry Sector</label>
-              <select 
-                name="industryType"
-                value={formData.industryType}
-                onChange={handleInputChange}
-                className="w-full bg-slate-50 border border-slate-200 rounded-none p-3 text-sm focus:outline-none focus:border-slate-900 transition-colors text-slate-800"
-              >
-                <option value="professional-services">Professional Services / Consulting</option>
-                <option value="marine-trades">Marine / PWC Repair & Heavy Trades</option>
-                <option value="construction-trades">Construction / Contracting / Trades</option>
-                <option value="e-commerce">Digital Commerce & Retail</option>
-                <option value="hospitality-food">Hospitality, Food & Beverage</option>
-              </select>
-            </div>
-          </div>
-
-          <hr className="border-slate-100" />
-
-          {/* SECTION 2: VISUAL IDENTITY */}
-          <div className="space-y-6">
-            <div className="border-l-2 border-slate-900 pl-3">
-              <h3 className="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">Section 02 // Brand Identity Parameters</h3>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-xs font-bold tracking-wider text-slate-700 uppercase font-mono block">Design Aesthetic Direction</label>
-                <select 
-                  name="brandStyle"
-                  value={formData.brandStyle}
-                  onChange={handleInputChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-none p-3 text-sm focus:outline-none focus:border-slate-900 transition-colors text-slate-800"
-                >
-                  <option value="minimal">Minimal / Sharp High-Contrast (Ink & Interface Style)</option>
-                  <option value="industrial">Heavy Industrial / Bold Character (The Ski Barn Style)</option>
-                  <option value="corporate">Clean Corporate / Corporate Modern</option>
-                </select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs font-bold tracking-wider text-slate-700 uppercase font-mono block">Primary Accent Anchor Color</label>
-                <select 
-                  name="brandColor"
-                  value={formData.brandColor}
-                  onChange={handleInputChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-none p-3 text-sm focus:outline-none focus:border-slate-900 transition-colors text-slate-800"
-                >
-                  <option value="slate">Monochrome Deep Slate</option>
-                  <option value="orange">Safety Blaze Orange</option>
-                  <option value="navy">Maritime Dark Navy</option>
-                  <option value="hunter">Deep Timber Hunter Green</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs font-bold tracking-wider text-slate-700 uppercase font-mono block">Primary Target Audience Profile</label>
-              <input 
-                required
-                type="text"
-                name="targetAudience"
-                placeholder="e.g., Local personal watercraft owners needing rapid mechanical repairs"
-                value={formData.targetAudience}
-                onChange={handleInputChange}
-                className="w-full bg-slate-50 border border-slate-200 rounded-none p-3 text-sm focus:outline-none focus:border-slate-900 transition-colors"
-              />
-            </div>
-          </div>
-
-          <hr className="border-slate-100" />
-
-          {/* SECTION 3: DIGITAL INFRASTRUCTURE */}
-          <div className="space-y-6">
-            <div className="border-l-2 border-slate-900 pl-3">
-              <h3 className="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">Section 03 // Next.js Interface Scope</h3>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-xs font-bold tracking-wider text-slate-700 uppercase font-mono block">Domain Routing Status</label>
-                <select 
-                  name="domainStatus"
-                  value={formData.domainStatus}
-                  onChange={handleInputChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-none p-3 text-sm focus:outline-none focus:border-slate-900 transition-colors text-slate-800"
-                >
-                  <option value="register">I need you to acquire and register a new domain profile</option>
-                  <option value="transfer">I already own a domain profile (Need custom DNS routing)</option>
-                </select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs font-bold tracking-wider text-slate-700 uppercase font-mono block">Core Pipeline Conversion Target</label>
-                <select 
-                  name="conversionTarget"
-                  value={formData.conversionTarget}
-                  onChange={handleInputChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-none p-3 text-sm focus:outline-none focus:border-slate-900 transition-colors text-slate-800"
-                >
-                  <option value="lead-form">Lead Intake Terminal (Collect user data records)</option>
-                  <option value="booking">Direct Scheduling Engine Routing (Cal/Calendly embed)</option>
-                  <option value="click-to-call">Mobile First Click-to-Dial Focus</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <hr className="border-slate-100" />
-
-          {/* Primary Administrative Organizer Details */}
-          <div className="space-y-6">
-            <div className="border-l-2 border-slate-900 pl-3">
-              <h3 className="text-xs font-mono font-bold tracking-widest text-slate-400 uppercase">Section 04 // Contact Authorization</h3>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-xs font-bold tracking-wider text-slate-700 uppercase font-mono block">Organizer Full Legal Name</label>
-                <input 
-                  required
-                  type="text"
-                  name="ownerName"
-                  placeholder="John Doe"
-                  value={formData.ownerName}
-                  onChange={handleInputChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-none p-3 text-sm focus:outline-none focus:border-slate-900 transition-colors"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs font-bold tracking-wider text-slate-700 uppercase font-mono block">Secure Contact Email Address</label>
-                <input 
-                  required
-                  type="email"
-                  name="email"
-                  placeholder="founder@domain.com"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-none p-3 text-sm focus:outline-none focus:border-slate-900 transition-colors"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Action Trigger Submit */}
-          <button 
-            type="submit" 
-            disabled={status === 'submitting' || status === 'success'}
-            className="w-full bg-slate-900 text-white font-bold text-xs uppercase tracking-wider py-4 rounded-none hover:bg-slate-800 transition-colors mt-6 shadow-sm disabled:bg-slate-400 disabled:cursor-not-allowed"
-          >
-            {status === 'submitting' ? 'Transmitting Core Framework Parameters...' : status === 'success' ? 'Redirecting to Stripe Checkout Terminals...' : 'Authorize Setup & Proceed to Billing'}
-          </button>
 
           {status === 'error' && (
-            <p className="text-xs font-mono text-red-600 text-center mt-2">
-              Exception Error: System pipeline disruption encountered. Please verify parameter fields.
+            <p className="text-xs font-mono text-red-400 text-center mt-2">
+              Pipeline Exception Error: Please verify missing validation dependencies.
             </p>
           )}
+
         </form>
       </div>
     </div>
@@ -312,7 +400,7 @@ function OnboardingFormContent() {
 
 export default function OnboardingForm() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-slate-50 text-slate-400 flex items-center justify-center font-mono text-xs tracking-widest">LOADING CORE COMPLIANCE TERMINAL...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-slate-950 text-slate-500 flex items-center justify-center font-mono text-xs tracking-widest">INITIALIZING SECURE TERMINAL DATA STRUCTURE...</div>}>
       <OnboardingFormContent />
     </Suspense>
   );
