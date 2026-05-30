@@ -36,7 +36,7 @@ export default function Hero() {
           </button>
           <Link
             href="/case-studies/ski-barn"
-            className="text-sm font-medium hover:text-slate-600 transition-colors"
+            className="border border-slate-300 text-slate-700 font-medium px-8 py-4 rounded-none hover:bg-slate-100 transition-colors"
           >
             View Case Studies
           </Link>
