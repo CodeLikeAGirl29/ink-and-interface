@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { LuShieldCheck, LuPalette, LuTerminal, LuBox } from "react-icons/lu";
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Our Philosophy | Ink & Interface",
@@ -296,6 +297,7 @@ export default function AboutPage() {
           </Link>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

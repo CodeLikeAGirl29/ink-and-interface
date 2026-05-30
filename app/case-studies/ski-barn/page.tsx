@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import Footer from '@/components/Footer';
 
 export const metadata = {
   title: "Case Study: The Ski Barn Launch | Ink & Interface",
@@ -151,6 +152,7 @@ export default function SkiBarnCaseStudy() {
         </div>
 
       </article>
+      <Footer />
     </div>
   );
 }
